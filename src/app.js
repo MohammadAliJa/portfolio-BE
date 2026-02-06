@@ -15,7 +15,7 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
-app.use('/api', require('./routes/user.routes'));
+// app.use('/api', require('./routes/user.routes'));
 app.use('/api', require('./routes/contact.routes'));
 
 module.exports = app;
