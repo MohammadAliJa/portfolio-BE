@@ -12,9 +12,8 @@ exports.createContactMessage = async (req, res) => {
             });
         }
 
-        // Create and save document
-        const newMessage = new ContactMessage({ name, email, message });
-        const savedMessage = await newMessage.save();
+        // Create and save document to Firestore
+        const savedMessage = await ContactMessage.create({ name, email, message });
 
         // Success response
         return res.status(201).json({
@@ -23,16 +22,7 @@ exports.createContactMessage = async (req, res) => {
         });
 
     } catch (error) {
-        console.error('Error saving contact message:', error);
-
-        // Handle Mongoose validation errors
-        if (error.name === 'ValidationError') {
-            return res.status(400).json({
-                success: false,
-                error: 'Validation failed',
-                details: error.message
-            });
-        }
+        console.error('Error saving contact message to Firestore:', error);
 
         // Generic server error
         return res.status(500).json({

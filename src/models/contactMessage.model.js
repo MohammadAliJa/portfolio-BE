@@ -1,30 +1,23 @@
-const mongoose = require('mongoose');
-const { Schema } = mongoose;
+const { db } = require('../config/db-firestore');
 
-const contactMessageSchema = new Schema(
-    {
-        name: {
-            type: String,
-            required: true,
-            trim: true
-        },
-        email: {
-            type: String,
-            required: true,
-            trim: true
-        },
-        message: {
-            type: String,
-            required: true,
-            trim: true
-        }
-    },
-    {
-        timestamps: true,
-        collection: 'contactMessages'
-    }
-);
-
-const ContactMessage = mongoose.model('ContactMessage', contactMessageSchema);
+const ContactMessage = {
+  create: async (data) => {
+    const docRef = db.collection('contactMessages').doc();
+    const now = new Date();
+    const messageData = {
+      name: data.name.trim(),
+      email: data.email.trim(),
+      message: data.message.trim(),
+      createdAt: now,
+      updatedAt: now
+    };
+    await docRef.set(messageData);
+    
+    return {
+      _id: docRef.id,
+      ...messageData
+    };
+  }
+};
 
 module.exports = { ContactMessage };
