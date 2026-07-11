@@ -7,8 +7,8 @@ const resend = new Resend(process.env.RESEND_API_KEY);
  */
 async function sendContactNotification({ name, email, message }) {
   await resend.emails.send({
-    from: '"Portfolio Contact Form" <' + process.env.EMAIL_USER + '>',git 
-    to: process.env.EMAIL_TO,
+    from: '"Portfolio Contact Form" <mohammadalijarjoumah>',
+    to: "mohammadalijarjoumah",
     replyTo: email,
     subject: `New portfolio contact message from ${name}`,
     text: `From: ${name} (${email})\n\nMessage:\n${message}`,
