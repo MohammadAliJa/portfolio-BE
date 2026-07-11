@@ -8,11 +8,11 @@ const ContactMessage = {
       name: data.name.trim(),
       email: data.email.trim(),
       message: data.message.trim(),
-      createdAt: now,
-      updatedAt: now
+      createdAt: now.toISOString(),
+      updatedAt: now.toISOString()
     };
     await docRef.set(messageData);
-    
+
     return {
       _id: docRef.id,
       ...messageData
