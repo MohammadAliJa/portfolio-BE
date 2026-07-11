@@ -1,22 +1,13 @@
-const nodemailer = require('nodemailer');
-
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 465,
-  secure: true, // use SSL
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_APP_PASSWORD,
-  },
-});
+const { Resend } = require('resend');
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 /**
  * Sends a notification email when a new contact message is submitted.
  * @param {{ name: string, email: string, message: string }} contactData
  */
 async function sendContactNotification({ name, email, message }) {
-  const mailOptions = {
-    from: `"Portfolio Contact Form" <${process.env.EMAIL_USER}>`,
+  await resend.emails.send({
+    from: '"Portfolio Contact Form" <' + process.env.EMAIL_USER + '>',git 
     to: process.env.EMAIL_TO,
     replyTo: email,
     subject: `New portfolio contact message from ${name}`,
@@ -27,10 +18,8 @@ async function sendContactNotification({ name, email, message }) {
       <p><strong>Email:</strong> ${email}</p>
       <p><strong>Message:</strong></p>
       <p>${message.replace(/\n/g, '<br>')}</p>
-    `,
-  };
-
-  await transporter.sendMail(mailOptions);
+    `
+  });
 }
 
 module.exports = { sendContactNotification };
