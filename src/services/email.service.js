@@ -1,5 +1,6 @@
 const { Resend } = require('resend');
-const resend = new Resend(process.env.RESEND_API_KEY);
+// We use a fallback string so the server doesn't crash on startup if you forget to add the key to Render!
+const resend = new Resend(process.env.RESEND_API_KEY || 'missing_api_key');
 
 /**
  * Sends a notification email when a new contact message is submitted.
