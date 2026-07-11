@@ -1,7 +1,7 @@
-const {env } = require('../../environments/.env')
-
+import dotenv from 'dotenv';
+dotenv.config();
 const { Resend } = require('resend');
-const resend = new Resend(env.RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 /**
  * Sends a notification email when a new contact message is submitted.
@@ -9,8 +9,8 @@ const resend = new Resend(env.RESEND_API_KEY);
  */
 async function sendContactNotification({ name, email, message }) {
   await resend.emails.send({
-    from: '"Portfolio Contact Form" <'+env.EMAIL_FROM+'>',
-    to: env.EMAIL_TO,
+    from: '"Portfolio Contact Form" <' + process.env.EMAIL_FROM + '>',
+    to: process.env.EMAIL_TO,
     replyTo: email,
     subject: `New portfolio contact message from ${name}`,
     text: `From: ${name} (${email})\n\nMessage:\n${message}`,
